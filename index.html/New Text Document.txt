@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ToolGram | Free Online Developer Tools</title><meta name="description" content="ToolGram: Free developer tools for JSON formatting, Base64 encoding, cryptography, string manipulation. No sign-up, 100% client-side."><meta name="keywords" content="developer tools, JSON formatter, Base64 encoder, password generator, UUID generator, SHA256 hash, online tools"><meta property="og:title" content="ToolGram | Infinite Developer Tools"><meta property="og:description" content="Convert anything, create magic, connect easy—all in one spot. Unbelievable power, zero hassle!"><meta property="og:image" content="https://i.postimg.cc/hGGkKC2W/Gemini-Generated-Image-2hkd0u2hkd0u2hkd.png"><meta property="og:url" content="https://toolgram.com"><link rel="canonical" href="https://toolgram.com/"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="css/style.css"><link rel="icon" href="https://i.postimg.cc/hGGkKC2W/Gemini-Generated-Image-2hkd0u2hkd0u2hkd.png" sizes="64x64"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ToolGram","description":"Free online developer tools for JSON formatting, Base64 encoding, cryptography, and string manipulation","url":"https://toolgram.com","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"ToolGram"}}</script></head><body>
+<nav><div class="logo"><a href="index.html"><img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generated-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram"></a></div><div class="search"><input id="nav-search" placeholder="Search infinite tools..." autocomplete="off"><i class="fas fa-search" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#94A3B8;"></i><div id="search-results"></div></div><div class="nav-buttons"><a href="tools.html" class="contact-btn"><i class="fas fa-tools"></i><span>All Tools</span></a><a href="contact.html" class="contact-btn"><i class="fas fa-envelope"></i><span>Contact Us</span></a></div></nav>
+<div class="ad-space"></div>
+<section class="hero"><h1>Convert. Create. Connect.</h1><h2>All in one place</h2><p>Convert anything, create magic, connect easy—all in one spot.<br>Unbelievable power, zero hassle!</p>
+<a href="tools.html" class="btn glitch"><i class="fas fa-rocket"></i> Explore Tools</a>
+<h2 class="section-heading">Why ToolGram?</h2>
+<div class="grid"><div class="card"><i class="fas fa-bolt icon"></i><h3>Blazing Fast</h3><p>Instant processing with 100% client-side operations</p></div>
+<div class="card"><i class="fas fa-shield-alt icon"></i><h3>Secure & Private</h3><p>Your data never leaves browser. Complete privacy</p></div>
+<div class="card"><i class="fas fa-user-check icon"></i><h3>No Sign-Up Required</h3><p>Start using immediately. No accounts needed</p></div>
+<div class="card"><i class="fas fa-chart-line icon"></i><h3>Professional Grade</h3><p>Enterprise-level tools for developers</p></div></div>
+<h2 style="text-align:center;color:var(--lt);margin:40px 0;font-size:2.2rem;line-height:1.4;">Championed by premier conglomerates across the globe.</h2>
+<div class="companies-container">
+<div class="company">GMX</div>
+<div class="company">CodeBeautify</div>
+<div class="company">AWS</div>
+<div class="company">CodePen</div>
+<div class="company">GitHub</div>
+<div class="company">Slack</div>
+</div></section>
+<footer class="footer-bg"><div class="watermark">TOOLGRAM</div><div class="footer-content">
+<div class="footer-links"><div><h3 style="color:var(--lt);margin-bottom:20px;">Company</h3>
+<a href="about.html">About Us</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms of Service</a>
+<a href="contact.html">Contact Us</a></div></div>
+<div class="copyright"><p>© ToolGram. All rights reserved 2026.</p></div></div></footer>
+<script src="js/main.js"></script></body></html>
