@@ -17,4 +17,15 @@
 <div class="footer-links"><div><h3 style="color:var(--lt);margin-bottom:20px;">Company</h3>
 <a href="../about.html">About Us</a><a href="../privacy.html">Privacy Policy</a><a href="../terms.html">Terms of Service</a><a href="../contact.html">Contact Us</a></div></div>
 <div class="copyright"><p>© ToolGram. All rights reserved 2026.</p></div></div></footer>
-<script src="../js/main.js"></script><script src="../js/tools/base64.js"></script></body></html>
+
+<script src="../js/main.js"></script><script src="../js/tools/base64.js"></script><script>
+setTimeout(() => {
+    if(window.location.pathname.includes('/tools/')) {
+        const back = document.querySelector('.back-btn');
+        const logo = document.querySelector('.logo a');
+        if(back) back.href = '../index.html';
+        if(logo) logo.href = '../index.html';
+    }
+}, 100);
+</script>
+</body></html>
