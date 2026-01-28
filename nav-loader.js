@@ -11,7 +11,7 @@
             newNav.innerHTML = `
                 <div class="logo">
                     <a href="../index.html">
-                        <img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generated-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram">
+                        <img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generatod-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram">
                     </a>
                 </div>
                 <div class="search">
@@ -36,4 +36,5 @@
             console.log('Navigation updated successfully!');
         }
     });
+
 })();
