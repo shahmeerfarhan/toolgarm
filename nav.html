@@ -10,56 +10,12 @@
         <div id="search-results"></div>
     </div>
     <div class="nav-buttons">
-        <a href="tools.html" class="contact-btn" id="nav-tools-btn">
+        <a href="tools.html" class="contact-btn">
             <i class="fas fa-tools"></i><span>All Tools</span>
         </a>
-        <a href="contact.html" class="contact-btn" id="nav-contact-btn">
+        <a href="contact.html" class="contact-btn">
             <i class="fas fa-envelope"></i><span>Contact</span>
         </a>
     </div>
 </nav>
-
-<script>
-// Navigation script that runs when nav loads
-(function() {
-    // Fix logo for tool pages
-    const logoLink = document.querySelector('.logo a');
-    if (logoLink && window.location.pathname.includes('/tools/')) {
-        logoLink.href = '../index.html';
-    }
-    
-    // Hide current page buttons
-    const currentPage = window.location.pathname.split('/').pop();
-    const toolsBtn = document.getElementById('nav-tools-btn');
-    const contactBtn = document.getElementById('nav-contact-btn');
-    
-    if (toolsBtn && (currentPage === 'tools.html' || window.location.pathname.includes('tools.html'))) {
-        toolsBtn.style.opacity = '0';
-        toolsBtn.style.pointerEvents = 'none';
-    }
-    
-    if (contactBtn && (currentPage === 'contact.html' || window.location.pathname.includes('contact.html'))) {
-        contactBtn.style.opacity = '0';
-        contactBtn.style.pointerEvents = 'none';
-    }
-    
-    // Simple search - can be enhanced later
-    const searchInput = document.getElementById('nav-search');
-    const resultsDiv = document.getElementById('search-results');
-    
-    if (searchInput && resultsDiv) {
-        searchInput.addEventListener('focus', function() {
-            resultsDiv.innerHTML = '<div style="padding: 15px; color: rgba(255,255,255,0.6);">Search coming soon...</div>';
-            resultsDiv.style.display = 'block';
-        });
-        
-        document.addEventListener('click', function(e) {
-            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
-                resultsDiv.style.display = 'none';
-            }
-        });
-    }
-    
-    console.log('🎯 Navigation initialized successfully');
-})();
-</script>
+<!-- NO JavaScript here - all functionality is in nav-load.js -->
