@@ -1,105 +1,65 @@
+<nav>
+    <div class="logo">
+        <a href="index.html">
+            <img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generated-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram">
+        </a>
+    </div>
+    <div class="search">
+        <input id="nav-search" placeholder="Search tools..." autocomplete="off">
+        <i class="fas fa-search"></i>
+        <div id="search-results"></div>
+    </div>
+    <div class="nav-buttons">
+        <a href="tools.html" class="contact-btn" id="nav-tools-btn">
+            <i class="fas fa-tools"></i><span>All Tools</span>
+        </a>
+        <a href="contact.html" class="contact-btn" id="nav-contact-btn">
+            <i class="fas fa-envelope"></i><span>Contact</span>
+        </a>
+    </div>
+</nav>
+
 <script>
-// Search functionality - loads from YOUR tools-data.json
-async function initNavigationSearch() {
-    const searchInput = document.getElementById('nav-search');
-    const resultsDiv = document.getElementById('search-results');
-    
-    if(!searchInput || !resultsDiv) return;
-    
-    let allTools = [];
-    
-    // Load tools from YOUR JSON file
-    try {
-        const response = await fetch('tools-data.json');
-        const data = await response.json();
-        allTools = data.tools || []; // Extract the "tools" array from your JSON
-        console.log('Loaded', allTools.length, 'tools from JSON');
-    } catch(error) {
-        console.error('Failed to load tools data:', error);
-        // Fallback if JSON fails
-        allTools = [
-            {id: 'case-normalizer', title: 'Case Converter', desc: 'Convert text between cases'},
-            {id: 'base64', title: 'Base64 Encoder', desc: 'Encode/decode Base64'},
-        ];
+// Navigation script that runs when nav loads
+(function() {
+    // Fix logo for tool pages
+    const logoLink = document.querySelector('.logo a');
+    if (logoLink && window.location.pathname.includes('/tools/')) {
+        logoLink.href = '../index.html';
     }
     
-    // Search event
-    searchInput.addEventListener('input', function(e) {
-        const query = e.target.value.toLowerCase().trim();
-        resultsDiv.innerHTML = '';
-        
-        if(query.length < 2) {
-            resultsDiv.style.display = 'none';
-            return;
-        }
-        
-        // Search in title AND description (matches your JSON fields)
-        const matches = allTools.filter(tool => 
-            tool.title.toLowerCase().includes(query) || 
-            (tool.desc && tool.desc.toLowerCase().includes(query))
-        );
-        
-        if(matches.length > 0) {
-            matches.forEach(tool => {
-                const item = document.createElement('a');
-                // Construct URL from id: tools/[id].html
-                item.href = `tools/${tool.id}.html`;
-                item.className = 'result-item';
-                item.innerHTML = `
-                    <strong>${tool.title}</strong><br>
-                    <small>${tool.desc || 'Developer tool'}</small>
-                `;
-                resultsDiv.appendChild(item);
-            });
-            resultsDiv.style.display = 'block';
-        } else {
-            resultsDiv.innerHTML = '<div class="no-results">No tools found</div>';
-            resultsDiv.style.display = 'block';
-        }
-    });
-    
-    // Hide results when clicking outside
-    document.addEventListener('click', function(e) {
-        if(!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
-            resultsDiv.style.display = 'none';
-        }
-    });
-}
-
-// Button highlighting - hides current page button
-function highlightCurrentPage() {
-    const currentPath = window.location.pathname;
-    const currentPage = currentPath.split('/').pop() || 'index.html';
-    
-    // Hide tools button if on tools page
+    // Hide current page buttons
+    const currentPage = window.location.pathname.split('/').pop();
     const toolsBtn = document.getElementById('nav-tools-btn');
     const contactBtn = document.getElementById('nav-contact-btn');
     
-    if(toolsBtn && (currentPage === 'tools.html' || currentPath.includes('tools.html'))) {
+    if (toolsBtn && (currentPage === 'tools.html' || window.location.pathname.includes('tools.html'))) {
         toolsBtn.style.opacity = '0';
         toolsBtn.style.pointerEvents = 'none';
-        toolsBtn.style.cursor = 'default';
     }
     
-    if(contactBtn && (currentPage === 'contact.html' || currentPath.includes('contact.html'))) {
+    if (contactBtn && (currentPage === 'contact.html' || window.location.pathname.includes('contact.html'))) {
         contactBtn.style.opacity = '0';
         contactBtn.style.pointerEvents = 'none';
-        contactBtn.style.cursor = 'default';
     }
-}
-
-// Fix logo link for tool pages
-function fixLogoLink() {
-    const logoLink = document.querySelector('.logo a');
-    if(logoLink && window.location.pathname.includes('/tools/')) {
-        logoLink.href = '../index.html';
+    
+    // Simple search - can be enhanced later
+    const searchInput = document.getElementById('nav-search');
+    const resultsDiv = document.getElementById('search-results');
+    
+    if (searchInput && resultsDiv) {
+        searchInput.addEventListener('focus', function() {
+            resultsDiv.innerHTML = '<div style="padding: 15px; color: rgba(255,255,255,0.6);">Search coming soon...</div>';
+            resultsDiv.style.display = 'block';
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.style.display = 'none';
+            }
+        });
     }
-}
-
-// Initialize everything when nav loads
-document.addEventListener('DOMContentLoaded', function() {
-    initNavigationSearch();
-    highlightCurrentPage();
-    fixLogoLink();
-});
+    
+    console.log('🎯 Navigation initialized successfully');
+})();
 </script>
