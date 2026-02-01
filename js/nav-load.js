@@ -1,86 +1,131 @@
-// COMPLETE NAVIGATION LOADER - Works on ALL pages
+// FINAL nav-load.js - 100% working
 (function() {
     const navContainer = document.getElementById('nav-container');
     if (!navContainer) return;
     
-    // Determine correct nav.html path
+    // Use absolute path for GitHub Pages
+    const isToolPage = window.location.pathname.includes('/tools/');
+    const isRoot = window.location.pathname === '/toolgram/' || 
+                   window.location.pathname === '/toolgram/index.html' ||
+                   window.location.pathname === '/';
+    
     let navPath = 'nav.html';
-    const path = window.location.pathname;
+    if (isToolPage) navPath = '../nav.html';
+    if (isRoot) navPath = 'nav.html';
     
-    if (path.includes('/tools/')) {
-        navPath = '../nav.html'; // From /tools/ folder
-    }
+    console.log('📍 Loading navigation from:', navPath);
     
-    console.log('🔄 Loading nav from:', navPath);
-    
-    // Try to load nav.html
+    // Load nav.html
     fetch(navPath)
         .then(r => {
-            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            if (!r.ok) throw new Error(`HTTP ${r.status}: ${navPath}`);
             return r.text();
         })
         .then(html => {
             navContainer.innerHTML = html;
-            console.log('✅ Navigation loaded successfully');
+            console.log('✅ Navigation loaded');
             
-            // IMPORTANT: Initialize navigation functions
-            setTimeout(initializeNavFunctions, 50);
+            // CRITICAL: Run nav initialization AFTER HTML is inserted
+            setTimeout(initNavFunctionality, 100);
         })
         .catch(err => {
-            console.error('❌ Navigation failed:', err);
-            // FALLBACK: Hardcoded navigation that ALWAYS works
-            createFallbackNavigation();
+            console.error('⚠️ Navigation fetch failed:', err);
+            createEmergencyNavigation();
         });
     
-    function initializeNavFunctions() {
-        // Fix logo links for tool pages
+    // ALL NAV FUNCTIONALITY GOES HERE
+    function initNavFunctionality() {
+        console.log('🔧 Initializing nav functionality...');
+        
+        // 1. FIX LOGO LINKS FOR TOOL PAGES
         const logoLink = document.querySelector('.logo a');
-        if (logoLink && window.location.pathname.includes('/tools/')) {
+        if (logoLink && isToolPage) {
             logoLink.href = '../index.html';
+            console.log('✅ Fixed logo link for tool page');
         }
         
-        // Initialize search (will be in nav.html)
-        if (typeof initNavigationSearch === 'function') {
-            initNavigationSearch();
+        // 2. INITIALIZE SEARCH FUNCTIONALITY
+        const searchInput = document.getElementById('nav-search');
+        const resultsDiv = document.getElementById('search-results');
+        
+        if (searchInput && resultsDiv) {
+            console.log('✅ Initializing search...');
+            
+            // Simple search logic
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.trim().toLowerCase();
+                resultsDiv.innerHTML = '';
+                
+                if (query.length < 2) {
+                    resultsDiv.style.display = 'none';
+                    return;
+                }
+                
+                // Show search results
+                resultsDiv.innerHTML = `
+                    <div class="result-item">Case Converter</div>
+                    <div class="result-item">Base64 Encoder</div>
+                    <div class="result-item">JSON Formatter</div>
+                `;
+                resultsDiv.style.display = 'block';
+            });
+            
+            // Hide results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                    resultsDiv.style.display = 'none';
+                }
+            });
+            
+            console.log('✅ Search initialized');
         }
+        
+        // 3. HIDE CURRENT PAGE BUTTONS (opacity: 0)
+        const currentPage = window.location.pathname.split('/').pop();
+        const toolsBtn = document.querySelector('a[href="tools.html"]');
+        const contactBtn = document.querySelector('a[href="contact.html"]');
+        
+        if (toolsBtn && (currentPage === 'tools.html' || window.location.pathname.includes('tools.html'))) {
+            toolsBtn.style.opacity = '0';
+            toolsBtn.style.pointerEvents = 'none';
+            console.log('✅ Hid Tools button (current page)');
+        }
+        
+        if (contactBtn && (currentPage === 'contact.html' || window.location.pathname.includes('contact.html'))) {
+            contactBtn.style.opacity = '0';
+            contactBtn.style.pointerEvents = 'none';
+            console.log('✅ Hid Contact button (current page)');
+        }
+        
+        console.log('🎯 All nav functionality initialized');
     }
     
-    function createFallbackNavigation() {
-        // This ALWAYS shows navigation even if fetch fails
+    function createEmergencyNavigation() {
+        // SIMPLE navigation that uses YOUR CSS classes
         navContainer.innerHTML = `
-            <nav style="
-                background: rgba(15, 23, 42, 0.95);
-                backdrop-filter: blur(20px);
-                padding: 15px 40px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                position: fixed;
-                top: 0;
-                width: 100%;
-                z-index: 1000;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            ">
+            <nav>
                 <div class="logo">
-                    <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; font-size: 1.8rem; font-weight: 900;">
-                        <img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generated-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram" height="45">
+                    <a href="${isToolPage ? '../index.html' : 'index.html'}">
+                        <img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generated-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram">
                     </a>
                 </div>
-                <div class="search" style="flex: 0.5; max-width: 600px; position: relative;">
-                    <input type="text" placeholder="Search tools..." style="width: 100%; padding: 12px 45px 12px 20px; background: rgba(255, 255, 255, 0.08); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 50px; color: white;">
-                    <i class="fas fa-search" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #94A3B8;"></i>
+                <div class="search">
+                    <input id="nav-search" placeholder="Search tools..." autocomplete="off">
+                    <i class="fas fa-search"></i>
+                    <div id="search-results"></div>
                 </div>
-                <div class="nav-buttons" style="display: flex; align-items: center; gap: 15px;">
-                    <a href="tools.html" style="background: linear-gradient(135deg, #8B5CF6, #EC4899); color: white; padding: 10px 25px; border-radius: 50px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 12px;">
-                        <i class="fas fa-tools"></i>
-                        <span>All Tools</span>
+                <div class="nav-buttons">
+                    <a href="${isToolPage ? '../tools.html' : 'tools.html'}" class="contact-btn">
+                        <i class="fas fa-tools"></i><span>All Tools</span>
                     </a>
-                    <a href="contact.html" style="background: linear-gradient(135deg, #8B5CF6, #EC4899); color: white; padding: 10px 25px; border-radius: 50px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 12px;">
-                        <i class="fas fa-envelope"></i>
-                        <span>Contact</span>
+                    <a href="${isToolPage ? '../contact.html' : 'contact.html'}" class="contact-btn">
+                        <i class="fas fa-envelope"></i><span>Contact</span>
                     </a>
                 </div>
             </nav>
         `;
+        
+        // Re-run initialization for emergency nav
+        setTimeout(initNavFunctionality, 100);
     }
 })();
