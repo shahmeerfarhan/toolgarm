@@ -1,52 +1,56 @@
+// Navigation Loader - loads nav.html into #nav-container
 document.addEventListener('DOMContentLoaded', function() {
     const navContainer = document.getElementById('nav-container');
     if(!navContainer) return;
     
+    // Calculate correct path based on current page
     let navPath = 'nav.html';
-    if(window.location.pathname.includes('/tools/')) {
-        navPath = '../nav.html';
+    const currentPath = window.location.pathname;
+    
+    // Different paths for different locations
+    if(currentPath.includes('/tools/')) {
+        navPath = '../nav.html'; // From /tools/ folder
+    } else if(currentPath === '/toolgram/' || currentPath === '/toolgram/index.html') {
+        navPath = 'nav.html'; // Root homepage
     }
     
+    console.log('Loading navigation from:', navPath);
+    
+    // Load navigation HTML
     fetch(navPath)
-        .then(r => r.text())
-        .then(html => {
-            navContainer.innerHTML = html;
-            // ✅ CRITICAL: Initialize search AFTER nav loads
-            setTimeout(initializeSearch, 100);
+        .then(response => {
+            if(!response.ok) {
+                throw new Error(`Failed to load navigation (${response.status})`);
+            }
+            return response.text();
         })
-        .catch(e => console.error('Nav error:', e));
+        .then(html => {
+            // Insert navigation HTML
+            navContainer.innerHTML = html;
+            console.log('Navigation loaded successfully');
+            
+            // Navigation scripts run automatically from nav.html
+            // No need to call anything here
+        })
+        .catch(error => {
+            console.error('Navigation error:', error);
+            // Fallback navigation
+            navContainer.innerHTML = `
+                <nav style="background:#0F172A;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;">
+                    <div class="logo">
+                        <a href="index.html" style="color:white;text-decoration:none;font-weight:bold;font-size:1.5rem;">
+                            ToolGram
+                        </a>
+                    </div>
+                    <div style="display:flex;gap:15px;">
+                        <a href="tools.html" style="color:white;text-decoration:none;padding:8px 16px;background:#8B5CF6;border-radius:20px;">
+                            Tools
+                        </a>
+                        <a href="contact.html" style="color:white;text-decoration:none;padding:8px 16px;background:#EC4899;border-radius:20px;">
+                            Contact
+                        </a>
+                    </div>
+                </nav>
+            `;
+        });
 });
-
-// ✅ ADD THIS FUNCTION to nav-load.js
-function initializeSearch() {
-    const searchInput = document.getElementById('nav-search');
-    const resultsDiv = document.getElementById('search-results');
-    
-    if(!searchInput || !resultsDiv) return;
-    
-    // Your search logic here
-    searchInput.addEventListener('input', function(e) {
-        const query = e.target.value.toLowerCase();
-        resultsDiv.innerHTML = '';
-        
-        if(query.length < 2) {
-            resultsDiv.style.display = 'none';
-            return;
-        }
-        
-        // Example search results
-        resultsDiv.innerHTML = `
-            <div class="result-item">Case Converter</div>
-            <div class="result-item">Base64 Encoder</div>
-            <div class="result-item">JSON Formatter</div>
-        `;
-        resultsDiv.style.display = 'block';
-    });
-    
-    // Hide results when clicking outside
-    document.addEventListener('click', function(e) {
-        if(e.target !== searchInput && !resultsDiv.contains(e.target)) {
-            resultsDiv.style.display = 'none';
-        }
-    });
-}
