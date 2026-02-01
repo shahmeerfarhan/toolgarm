@@ -1,53 +1,54 @@
-// Navigation Loader - loads nav.html into #nav-container
+// Navigation Loader - FIXED for GitHub Pages
 document.addEventListener('DOMContentLoaded', function() {
     const navContainer = document.getElementById('nav-container');
     if(!navContainer) return;
     
-    // Calculate correct path based on current page
-    let navPath = 'nav.html';
-    const currentPath = window.location.pathname;
+    // CRITICAL FIX: GitHub Pages base path
+    const basePath = '/toolgram/'; // Your GitHub Pages subdirectory
+    let navPath = basePath + 'nav.html';
     
-    // Different paths for different locations
+    // Check current URL to determine correct path
+    const currentPath = window.location.pathname;
+    console.log('Current path:', currentPath);
+    
+    // Adjust path for different locations
     if(currentPath.includes('/tools/')) {
-        navPath = '../nav.html'; // From /tools/ folder
-    } else if(currentPath === '/toolgram/' || currentPath === '/toolgram/index.html') {
-        navPath = 'nav.html'; // Root homepage
+        // From /tools/case-normalizer.html
+        navPath = basePath + 'nav.html'; // Absolute path works always
+    } else if(currentPath === '/' || currentPath === '/toolgram/') {
+        // Root or homepage
+        navPath = basePath + 'nav.html';
     }
     
     console.log('Loading navigation from:', navPath);
     
-    // Load navigation HTML
-    fetch(navPath)
+    // Load with absolute timeout - no caching
+    fetch(navPath, {cache: 'no-cache'})
         .then(response => {
-            if(!response.ok) {
-                throw new Error(`Failed to load navigation (${response.status})`);
-            }
+            console.log('Response status:', response.status);
+            if(!response.ok) throw new Error(`HTTP ${response.status}`);
             return response.text();
         })
         .then(html => {
-            // Insert navigation HTML
+            console.log('Navigation HTML loaded, length:', html.length);
             navContainer.innerHTML = html;
-            console.log('Navigation loaded successfully');
-            
-            // Navigation scripts run automatically from nav.html
-            // No need to call anything here
         })
         .catch(error => {
-            console.error('Navigation error:', error);
-            // Fallback navigation
+            console.error('Navigation FAILED:', error);
+            // EMERGENCY FALLBACK - shows navigation even if fetch fails
             navContainer.innerHTML = `
-                <nav style="background:#0F172A;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;">
+                <nav style="background:#0F172A;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);position:fixed;top:0;width:100%;z-index:1000;">
                     <div class="logo">
-                        <a href="index.html" style="color:white;text-decoration:none;font-weight:bold;font-size:1.5rem;">
-                            ToolGram
+                        <a href="${basePath}index.html" style="color:white;text-decoration:none;font-size:1.8rem;font-weight:900;display:flex;align-items:center;gap:10px;">
+                            <img src="https://i.postimg.cc/sgvNN6w5/Gemini-Generated-Image-xajg8yxajg8yxajg-removebg-preview.png" alt="ToolGram" height="45">
                         </a>
                     </div>
-                    <div style="display:flex;gap:15px;">
-                        <a href="tools.html" style="color:white;text-decoration:none;padding:8px 16px;background:#8B5CF6;border-radius:20px;">
-                            Tools
+                    <div class="nav-buttons" style="display:flex;gap:15px;">
+                        <a href="${basePath}tools.html" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);color:white;padding:10px 25px;border-radius:50px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+                            <i class="fas fa-tools"></i><span>All Tools</span>
                         </a>
-                        <a href="contact.html" style="color:white;text-decoration:none;padding:8px 16px;background:#EC4899;border-radius:20px;">
-                            Contact
+                        <a href="${basePath}contact.html" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);color:white;padding:10px 25px;border-radius:50px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+                            <i class="fas fa-envelope"></i><span>Contact</span>
                         </a>
                     </div>
                 </nav>
